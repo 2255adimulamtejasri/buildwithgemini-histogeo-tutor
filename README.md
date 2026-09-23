@@ -136,6 +136,7 @@ A **skill** is a bundle of instructions that loads automatically when it's relev
 ```text
 .agents/
 ├── mcp_config.json    # Firebase + Developer Knowledge MCP servers
+├── rules/             # workspace rules (only deploy when asked)
 └── skills/            # the workshop skills listed above
 ```
 

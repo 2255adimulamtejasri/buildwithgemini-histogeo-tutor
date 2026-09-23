@@ -192,7 +192,8 @@ def memory_bank_service_builder():
 # or --memory_service_uri=agentengine://MEMORY_BANK_ID to the ADK deploy command.
 ```
 
-Then redeploy. Confirm the deployed agent actually persists memories (Step 4) —
+The next redeploy picks this up. Don't redeploy unless the user asks. After it's
+deployed, confirm the deployed agent actually persists memories (Step 4) —
 don't assume the default did it.
 
 ## Step 4 — verify
