@@ -6,7 +6,7 @@
 
 ### The starter kit for Track 3 of the Build with Gemini World Tour, and a showcase of what participants built with it.
 
-Clone this repo, open [Antigravity](https://antigravity.google), and build your own agent-first app on Google Cloud. Every project in the [gallery below](#-featured-projects) was built the same way: prototyped with Antigravity and `agents-cli`, equipped with Memory, tools, storage, and RAG, deployed to Agent Platform, and given a face on Cloud Run.
+Clone this repo, open [Antigravity](https://antigravity.google), and build your own agent-first app on Google Cloud. Every project in the [gallery below](#-featured-projects) was built the same way: prototyped with Antigravity and `agents-cli`, equipped with Memory, tools, and storage, deployed to Agent Platform, and given a face on Cloud Run.
 
 <br/>
 
@@ -54,7 +54,6 @@ Every app in this collection is built from the same set of Google Cloud building
 | 🗄️ **Structured data** | Inventory, records, lists | [Firestore](https://console.cloud.google.com/firestore) |
 | 🖼️ **Files & blobs** | Images, media, assets | [Cloud Storage](https://console.cloud.google.com/storage) |
 | 🔧 **Tools** | Take real actions and fetch real data | ADK function tools |
-| 📖 **RAG** | Answers grounded in your documents | [Vertex AI RAG Engine](https://console.cloud.google.com/agent-platform/rag) |
 | 🎨 **Media generation** | Creates images (and video) on demand | `gemini-3.1-flash-lite-image` (Nano Banana 2 Lite) · Omni (video) |
 | 🧪 **Code sandbox** | Safely runs generated code | Agent Platform code execution |
 | 🪟 **Agent-first UI** | Cards and tables instead of plain text | [A2UI](https://adk.dev/integrations/a2ui/) |
@@ -118,7 +117,6 @@ A **skill** is a bundle of instructions that loads automatically when it's relev
 | [`pick-your-agent-project`](.agents/skills/pick-your-agent-project/SKILL.md) | Brainstorm your app idea and write a project brief |
 | [`troubleshoot-lab-setup`](.agents/skills/troubleshoot-lab-setup/SKILL.md) | Verify your environment and fix common setup errors |
 | [`memory-bank-setup`](.agents/skills/setup-memory-bank/SKILL.md) | Add cross-session memory to your agent with Vertex AI Memory Bank |
-| [`rag-engine-setup`](.agents/skills/build-rag/SKILL.md) | Ground your agent on documents with a serverless Vertex AI RAG corpus |
 | [`enable-a2ui`](.agents/skills/enable-a2ui/SKILL.md) | Make your agent reply with rich UI cards (A2UI) in the ADK dev UI |
 | [`build-agent-frontend`](.agents/skills/build-agent-frontend/SKILL.md) | Generate a FastAPI chat frontend and ship it to Cloud Run |
 | [`record-demo`](.agents/skills/record-demo/SKILL.md) | Record a branded demo video of your agent, with an optional AI soundtrack |
