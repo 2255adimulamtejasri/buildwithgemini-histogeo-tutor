@@ -1,6 +1,6 @@
 ---
 name: pick-your-agent-project
-description: Interactively help a workshop participant decide on and design what agent to build. Use when the user is choosing a project, brainstorming an agent idea, says "I don't know what to build" or "what should I make", OR asks to design/plan/"help me design"/"help me make"/"help me build" a specific agent idea (e.g. "help me design a travel planner agent", "help me make a recipe assistant", "design my agentic application") BEFORE any code is scaffolded — this is the planning/brief step, not implementation. Also use when they want to check whether their idea will actually exercise the workshop's Google tools (memory/sessions, function tools, storage + A2UI, image generation, code sandbox, evaluation). Guides a domain choice and a tool-coverage gut-check, then writes a short project brief. Don't use for implementing or coding the agent itself (that comes after the brief).
+description: Interactively help a workshop participant decide on and design what agent to build. Use when the user is choosing a project, brainstorming an agent idea, says "I don't know what to build" or "what should I make", OR asks to design/plan/"help me design"/"help me make"/"help me build" a specific agent idea (e.g. "help me design a travel planner agent", "help me make a recipe assistant", "design my agentic application") BEFORE any code is scaffolded — this is the planning/brief step, not implementation. Also use when they want to check whether their idea will actually exercise the workshop's Google tools (memory/sessions, function tools, storage + A2UI, image generation, code sandbox). Guides a domain choice and a tool-coverage gut-check, then writes a short project brief. Don't use for implementing or coding the agent itself (that comes after the brief).
 ---
 
 # Pick your agent project
@@ -25,9 +25,8 @@ Reverse-engineer from the tools and the design gets easy:
 | Sessions & Memory | something worth **remembering** about the user (preferences, history) |
 | Function tools | something real it can **do or look up**, not just chat |
 | Storage + A2UI | a **collection/catalog** of things that render nicely as cards/tables |
-| Image or Music generation | a domain where **generating a visual or sound** is useful |
+| Image generation | a domain where **generating a visual** is useful |
 | Code sandbox | an occasional need to **compute** something |
-| Evaluation | a **definable "good"** — you can say what a right answer looks like |
 
 So the archetype is: *a stateful conversational agent with a catalog of things it
 can show you, act on, and generate visuals for.* (That's why the sample
@@ -46,16 +45,17 @@ not a test:
 2. **Tools** — What can it actually *do* or *fetch* (a real action or lookup)?
 3. **Catalog** — What collection of things does it have? (renders great as cards/tables)
 4. **Visuals** — What image could it generate for you?
-5. **Compute** — When might it need to calculate or run code?
+5. **Compute** — Does it need to calculate or run code? If so, the code sandbox fits; if not, skip it.
 
 **Minimum bar (must clear to be a good project):** solid answers to **#1 and #2**.
-Those are the core rails everyone builds. If an idea can't say what it remembers
+Everyone builds these. If an idea can't say what it remembers
 or what it *does*, it's a chatbot, not an agent — nudge them to reshape it.
 
-**Stretch coverage (nice to have):** #3, #4, #5. Aim for at least two of these to
-be plausible so they have a rich "stretch menu" for the hackathon half. If their
-idea only clears the minimum, that's fine — just tell them which optional tools
-will be a natural fit later and which won't.
+**Also recommended:** #3 and #4. The lab walks everyone through storage, A2UI, and
+image generation, so it helps if the idea has a catalog and something to visualize.
+**Agent-specific:** #5. Only plan on the sandbox if the idea needs to compute
+something. If their idea only clears the minimum, that's fine — just tell them
+which parts of the lab will be a natural fit and which won't.
 
 ## How to run the brainstorm
 
@@ -69,9 +69,9 @@ Ask a few questions at a time and adapt — don't dump the whole checklist at on
 4. **Check the minimum bar.** Confirm #1 and #2 are solid. If not, tweak the idea
    (usually: give it a real action, or something to remember) rather than
    discarding it.
-5. **Map the stretch menu.** Tell them which optional tools (A2UI, image gen,
-   sandbox, storage) fit their domain — this is what they'll reach for after the
-   core rails are done.
+5. **Map the stretch menu.** Tell them which agent-specific and stretch options
+   (code sandbox, a live external API like Maps, video with Omni, Cloud Trace) fit
+   their domain — this is what they'll reach for after the recommended steps are done.
 6. **Write the spec file.** Save the brief as `project_brief.md` in the workspace
    (format below) — the build step points `agents-cli` at this file.
 
@@ -108,13 +108,9 @@ Tool coverage:
 - Image gen: <what visual, or "n/a">
 - Sandbox: <what computation, or "n/a">
 
-Core rails (everyone): memory, tools, eval, deploy, frontend
-My stretch menu (pick later): <the optional tools that fit>
-First eval question: <one example of a "good" response for this agent>
+Recommended for every project: memory, storage, tools, image generation, A2UI
+Agent-specific / stretch (pick what fits): <e.g. code sandbox for calculations, a live external API like Maps, video with Omni, Cloud Trace>
 ```
-
-The "first eval question" plants the evaluation mindset early — defining "good"
-is the hardest, most valuable part of the lab.
 
 ## After you write the brief: STOP
 
