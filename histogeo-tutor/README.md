@@ -101,6 +101,40 @@ uv run agents-cli run "Tell me about the geography and rise of the Maurya Empire
 
 ---
 
+## 📱💻 How to Access & Use Histogeo Tutor (Mobile & Desktop)
+
+Histogeo Tutor is fully responsive and designed to work on both **Desktop computers** (Chrome, Firefox, Safari, Edge) and **Mobile devices** (iOS Safari, Android Chrome, tablets).
+
+### Accessing the Web UI
+
+- **Desktop Browser**: Open `http://localhost:8080` in your web browser.
+- **Mobile Device (Same Wi-Fi Network)**:
+  1. Find your desktop computer's local IP address (e.g. `192.168.1.50` on Linux/Mac via `ip a` or `ifconfig`, or `ipconfig` on Windows).
+  2. Start the server bound to `0.0.0.0`:
+     ```bash
+     uv run uvicorn app.fast_api_app:app --host 0.0.0.0 --port 8080
+     ```
+  3. Open `http://<YOUR_LOCAL_IP>:8080` in Chrome or Safari on your mobile phone or tablet.
+- **Deployed Cloud Run**: Simply navigate to your deployed Cloud Run HTTPS URL on any mobile phone, tablet, or desktop browser.
+
+### How to Use App Features
+
+1. **Ask a Study Question**:
+   - Type any History or Geography question into the chat box (e.g. *"Tell me about the rise of the Maurya Empire"* or *"Compare the lengths of major Indian rivers with a chart"*).
+   - Tap or click **Send**.
+2. **View Interactive Cards & Visuals**:
+   - Fact-checked Wikipedia summaries will render in structured A2UI cards.
+   - Scene illustrations or Matplotlib timelines and bar charts will automatically display inside the card.
+3. **Organize Projects & Study Sessions**:
+   - Click **+ New Project** in the sidebar to start a new chat session (e.g., *"Ancient India Revision"*, *"River Systems"*).
+   - Easily tap between projects on mobile or desktop to view individual chat histories.
+4. **Export Study Notes**:
+   - Click the **Save Notes** button on any agent response card to instantly download a Markdown (`.md`) file containing summary notes and embedded image links.
+5. **Toggle Dark / Light Mode**:
+   - Tap the **Sun/Moon icon** in the top-right header to switch between Dark and Light themes. Your preference is automatically saved across visits.
+
+---
+
 ## Deployment Instructions
 
 ### 1. Deploy Agent to Vertex AI Agent Runtime
