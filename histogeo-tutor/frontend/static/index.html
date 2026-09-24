@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histogeo Tutor — Projects</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+<style>
+  :root {
+    --accent: #1a73e8;
+    --accent-hover: #1557b0;
+    --bg: #f8f9fa;
+    --sidebar-bg: #ffffff;
+    --sidebar-header-bg: #f1f3f4;
+    --border: #e0e0e0;
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --active-bg: #e8f0fe;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --hover-bg: #f1f3f4;
+    --save-btn-bg: #f1f3f4;
+    --save-btn-color: #3c4043;
+    --save-btn-border: #dadce0;
+  }
+  body.dark-theme {
+    --bg: #121212;
+    --sidebar-bg: #1e1e1e;
+    --sidebar-header-bg: #282828;
+    --border: #333333;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --active-bg: #1a2d42;
+    --card-bg: #1e1e1e;
+    --input-bg: #1e1e1e;
+    --hover-bg: #2d2d2d;
+    --save-btn-bg: #2a2a2a;
+    --save-btn-color: #e8eaed;
+    --save-btn-border: #444444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  #sidebar {
+    width: 280px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .sidebar-header {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--sidebar-header-bg);
+  }
+  .sidebar-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-new {
+    padding: 0.45rem 0.85rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.2s;
+  }
+  .btn-new:hover { background: var(--accent-hover); }
+
+  .project-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.6rem 0.5rem;
+  }
+  .project-item {
+    padding: 0.75rem 0.85rem;
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.93rem;
+    color: var(--text-primary);
+    transition: background 0.15s;
+  }
+  .project-item:hover { background: var(--hover-bg); }
+  .project-item.active {
+    background: var(--active-bg);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .project-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  .project-del {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    cursor: pointer;
+  }
+  .project-item:hover .project-del { opacity: 1; }
+  .project-del:hover { color: #ea4335; }
+
+  /* Main Container */
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--bg);
+  }
+  header {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1);
+    color: #fff;
+    padding: 1.1rem 1.5rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .theme-toggle-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .theme-toggle-btn:hover { background: rgba(255,255,255,0.25); }
+
+  #log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .msg { margin: 0.8rem 0; }
+  .msg.user { text-align: right; }
+  .bubble {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    text-align: left;
+    max-width: 90%;
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .msg.user .bubble { background: var(--accent); color: #fff; border: none; }
+  .bubble.rich { background: transparent; border: none; padding: 0; max-width: 100%; white-space: normal; }
+
+  form {
+    display: flex;
+    gap: 0.6rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var(--sidebar-bg);
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus { border-color: var(--accent); }
+  button {
+    padding: 0.75rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-hover); }
+
+  /* A2UI Component Styles */
+  .a2card { border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; background: var(--card-bg); box-shadow: 0 2px 8px rgba(0,0,0,.06); max-width: 100%; }
+  .a2card + .a2card, .a2col > .a2card { margin-top: 0.8rem; }
+  .a2col { display: flex; flex-direction: column; gap: 0.5rem; }
+  .a2row { display: flex; flex-direction: row; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+  .a2row.between { justify-content: space-between; }
+  .a2text { margin: 0; line-height: 1.5; color: var(--text-primary); }
+  .a2text.a2-h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 0.2rem; }
+  .a2text.a2-h2 { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+  .a2text.a2-h3 { font-size: 1.1rem; font-weight: 600; }
+  .a2text.a2-h4 { font-size: 1rem; font-weight: 600; }
+  .a2text.a2-caption { font-size: 0.85rem; color: var(--text-secondary); }
+  .a2divider { border: none; border-top: 1px solid var(--border); margin: 0.6rem 0; width: 100%; }
+  .a2img { max-width: 100%; border-radius: 8px; display: block; margin: 0.6rem 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-size: 1.25rem; line-height: 1; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      <span class="material-symbols-outlined" style="color:var(--accent);">folder_special</span>
+      Projects
+    </div>
+    <button class="btn-new" id="btn-new">
+      <span class="material-symbols-outlined" style="font-size:1.1rem; color:#fff;">add</span>
+      New
+    </button>
+  </div>
+  <div class="project-list" id="project-list"></div>
+</div>
+
+<div id="main">
+  <header>
+    <div style="display:flex; align-items:center; gap:0.6rem;">
+      <span>🏛️ Histogeo Tutor</span>
+      <span id="active-project-label" style="font-size:0.9rem; font-weight:500; opacity:0.85; margin-left:0.5rem;"></span>
+    </div>
+    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Light/Dark Theme">
+      <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      <span id="theme-text">Dark</span>
+    </button>
+  </header>
+  <div id="log"></div>
+  <form id="form">
+    <input id="input" placeholder="Ask about history or geography for this project..." autocomplete="off" autofocus>
+    <button>Send</button>
+  </form>
+</div>
+
+<script>
+const log = document.getElementById("log");
+const form = document.getElementById("form");
+const input = document.getElementById("input");
+const projectListEl = document.getElementById("project-list");
+const btnNew = document.getElementById("btn-new");
+const activeProjectLabel = document.getElementById("active-project-label");
+
+// State Management
+let projects = JSON.parse(localStorage.getItem("histogeo_projects") || "[]");
+let activeProjectId = localStorage.getItem("histogeo_active_project") || "";
+
+if (!projects.length) {
+  const defaultProj = { id: "proj_default", name: "Ancient India Revision" };
+  projects.push(defaultProj);
+  activeProjectId = defaultProj.id;
+  saveProjects();
+} else if (!activeProjectId || !projects.some(p => p.id === activeProjectId)) {
+  activeProjectId = projects[0].id;
+  localStorage.setItem("histogeo_active_project", activeProjectId);
+}
+
+function saveProjects() {
+  localStorage.setItem("histogeo_projects", JSON.stringify(projects));
+  localStorage.setItem("histogeo_active_project", activeProjectId);
+}
+
+function getHistory(projId) {
+  return JSON.parse(localStorage.getItem("histogeo_history_" + projId) || "[]");
+}
+
+function saveHistory(projId, history) {
+  localStorage.setItem("histogeo_history_" + projId, JSON.stringify(history));
+}
+
+function renderSidebar() {
+  projectListEl.textContent = "";
+  projects.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "project-item" + (p.id === activeProjectId ? " active" : "");
+    
+    const nameEl = document.createElement("div");
+    nameEl.className = "project-name";
+    nameEl.textContent = p.name;
+    
+    const delBtn = document.createElement("span");
+    delBtn.className = "material-symbols-outlined project-del";
+    delBtn.textContent = "delete";
+    delBtn.title = "Delete project chat";
+    delBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteProject(p.id);
+    });
+
+    item.appendChild(nameEl);
+    if (projects.length > 1) item.appendChild(delBtn);
+
+    item.addEventListener("click", () => switchProject(p.id));
+    projectListEl.appendChild(item);
+  });
+
+  const activeProj = projects.find(p => p.id === activeProjectId);
+  if (activeProj) activeProjectLabel.textContent = "Project: " + activeProj.name;
+}
+
+function createNewProject() {
+  const name = prompt("Enter project chat name:", "Geography & River Systems");
+  if (!name || !name.trim()) return;
+  const newProj = { id: "proj_" + Date.now(), name: name.trim() };
+  projects.push(newProj);
+  activeProjectId = newProj.id;
+  saveProjects();
+  renderSidebar();
+  loadProjectChat();
+}
+
+function deleteProject(projId) {
+  if (!confirm("Are you sure you want to delete this project chat?")) return;
+  projects = projects.filter(p => p.id !== projId);
+  localStorage.removeItem("histogeo_history_" + projId);
+  if (activeProjectId === projId) activeProjectId = projects[0].id;
+  saveProjects();
+  renderSidebar();
+  loadProjectChat();
+}
+
+function switchProject(projId) {
+  if (activeProjectId === projId) return;
+  activeProjectId = projId;
+  saveProjects();
+  renderSidebar();
+  loadProjectChat();
+}
+
+function loadProjectChat() {
+  log.textContent = "";
+  const history = getHistory(activeProjectId);
+  history.forEach(item => {
+    const b = bubble(item.who);
+    if (item.who === "user") {
+      b.textContent = item.text || "";
+    } else {
+      renderReply(b, item.parts || []);
+    }
+  });
+}
+
+// Helpers
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+function bubble(who) {
+  const m = el("div", "msg " + who);
+  const b = el("div", "bubble");
+  m.appendChild(b); log.appendChild(m); log.scrollTop = log.scrollHeight;
+  return b;
+}
+
+function boundStr(v) {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  if (typeof v.literalString === "string") return v.literalString;
+  return "";
+}
+
+function childIds(props) {
+  const ids = [];
+  if (props && typeof props.child === "string") ids.push(props.child);
+  const ch = props && props.children;
+  if (ch && Array.isArray(ch.explicitList)) for (const c of ch.explicitList) if (typeof c === "string") ids.push(c);
+  return ids;
+}
+
+function iconName(n) { return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase(); }
+
+function buildNode(id, comps, seen) {
+  if (!id || seen.has(id)) return null;
+  seen.add(id);
+  const spec = comps[id];
+  if (!spec || typeof spec !== "object") return null;
+  const type = Object.keys(spec)[0];
+  const props = spec[type] || {};
+  const kids = () => childIds(props).map(cid => buildNode(cid, comps, seen)).filter(Boolean);
+
+  switch (type) {
+    case "Card": {
+      const d = el("div", "a2card"); kids().forEach(n => d.appendChild(n)); return d;
+    }
+    case "Column":
+    case "List": {
+      const horizontal = type === "List" && props.direction === "horizontal";
+      const d = el("div", horizontal ? "a2row" : "a2col"); kids().forEach(n => d.appendChild(n)); return d;
+    }
+    case "Row": {
+      const d = el("div", "a2row" + (props.distribution === "spaceBetween" ? " between" : ""));
+      kids().forEach(n => d.appendChild(n)); return d;
+    }
+    case "Text": {
+      const t = el("div", "a2text");
+      const hint = String(props.usageHint || "body").toLowerCase();
+      if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(hint)) t.classList.add("a2-" + hint);
+      else if (hint === "caption") t.classList.add("a2-caption");
+      t.textContent = boundStr(props.text);
+      return t;
+    }
+    case "Divider":
+      return el("hr", "a2divider");
+    case "Image": {
+      const src = boundStr(props.url || props.src);
+      if (!/^https?:\/\//i.test(src)) return null;
+      const img = el("img", "a2img"); img.src = src; img.alt = boundStr(props.alt) || "Illustration"; return img;
+    }
+    case "Icon": {
+      const s = el("span", "material-symbols-outlined"); s.textContent = iconName(boundStr(props.name) || props.name); return s;
+    }
+    default:
+      return null;
+  }
+}
+
+function renderSurface(messages, container) {
+  const comps = {};
+  const roots = [];
+  for (const m of messages) {
+    if (m.beginRendering && typeof m.beginRendering.root === "string") roots.push(m.beginRendering.root);
+    const su = m.surfaceUpdate;
+    if (su && Array.isArray(su.components)) for (const c of su.components) if (c && c.id && c.component) comps[c.id] = c.component;
+  }
+  let rootIds = roots.filter(r => comps[r]);
+  if (rootIds.length === 0) {
+    const referenced = new Set();
+    for (const id in comps) { const spec = comps[id]; childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c)); }
+    rootIds = Object.keys(comps).filter(id => !referenced.has(id));
+  }
+  let drew = false;
+  for (const rid of rootIds) { const node = buildNode(rid, comps, new Set()); if (node) { container.appendChild(node); drew = true; } }
+  return drew;
+}
+
+function flattenText(messages) {
+  const out = [];
+  for (const m of messages) {
+    const su = m.surfaceUpdate;
+    if (su && Array.isArray(su.components)) for (const c of su.components) if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+  }
+  return out.join("\n").trim();
+}
+
+function renderReply(b, parts) {
+  b.textContent = "";
+  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
+  const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
+
+  const textStr = texts.join("\n").trim();
+  if (textStr) b.appendChild(el("div", null, textStr));
+
+  if (a2ui.length) {
+    b.classList.add("rich");
+    if (!renderSurface(a2ui, b)) b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+  }
+  if (!b.childNodes.length) b.textContent = "(no response)";
+
+  // Add client-side Save Output / Download button
+  const saveBtn = el("button", "save-btn", "📥 Save Notes");
+  saveBtn.style.cssText = "margin-top:0.75rem; padding:0.35rem 0.75rem; font-size:0.82rem; background:var(--save-btn-bg); color:var(--save-btn-color); border:1px solid var(--save-btn-border); border-radius:6px; cursor:pointer; display:inline-flex; align-items:center; gap:0.3rem; font-weight:500; transition:background 0.2s;";
+  saveBtn.addEventListener("click", () => {
+    let md = "# Histogeo Tutor — Study Notes\n\n";
+    const textContent = b.innerText.replace("📥 Save Notes", "").trim();
+    md += textContent + "\n\n";
+
+    const imgs = b.querySelectorAll("img");
+    if (imgs.length) {
+      md += "## Visual Illustrations\n";
+      imgs.forEach(img => {
+        if (img.src) md += `![Illustration](${img.src})\n\n`;
+      });
+    }
+    const blob = new Blob([md], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `histogeo_study_notes_${Date.now()}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  b.appendChild(saveBtn);
+
+  log.scrollTop = log.scrollHeight;
+}
+
+// Dark / Light Theme Toggle
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+const themeText = document.getElementById("theme-text");
+
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.body.classList.add("dark-theme");
+    themeIcon.textContent = "light_mode";
+    themeText.textContent = "Light";
+  } else {
+    document.body.classList.remove("dark-theme");
+    themeIcon.textContent = "dark_mode";
+    themeText.textContent = "Dark";
+  }
+}
+
+let savedTheme = localStorage.getItem("histogeo_theme") || "light";
+applyTheme(savedTheme);
+
+themeToggleBtn.addEventListener("click", () => {
+  savedTheme = document.body.classList.contains("dark-theme") ? "light" : "dark";
+  localStorage.setItem("histogeo_theme", savedTheme);
+  applyTheme(savedTheme);
+});
+
+btnNew.addEventListener("click", createNewProject);
+
+form.addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+
+  const currentProjId = activeProjectId;
+  const history = getHistory(currentProjId);
+  history.push({ who: "user", text: text });
+  saveHistory(currentProjId, history);
+
+  bubble("user").textContent = text;
+  input.value = "";
+  const b = bubble("agent"); b.textContent = "…";
+
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, session_id: currentProjId })
+    });
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); }
+    catch { throw new Error(`Server returned non-JSON (HTTP ${res.status}). ${raw.slice(0, 300)}`); }
+    
+    renderReply(b, data.parts || []);
+    
+    history.push({ who: "agent", parts: data.parts || [] });
+    saveHistory(currentProjId, history);
+  } catch (e) {
+    b.textContent = "Error: " + e.message;
+  }
+});
+
+// Initial Setup
+renderSidebar();
+loadProjectChat();
+</script>
+</body>
+</html>
